@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>风景旅游区简介</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<section class="page" id="welcome">
+        <div class="tree-wrap">
+            <img class="tree" src="img/tree.jpg" alt="">
+            <img class="cloud" src="img/cloud.png" alt="">
+            <img class="cloud" src="img/cloud.png" alt="">
+            <img class="cloud" src="img/cloud.png" alt="">
+
+        </div>
+        <div class="text">
+            <img class="title1" src="img/title.png" alt="">
+            <img class="title2" src="img/title2.png" alt="">
+            <img class="logo" src="img/logo.png" alt="">
+        </div>
+</section>
+<section class="page" id="over">
+    <!--轮播图-->
+    <div class="banner">
+        <ul class="clearfix">
+            <li><img src="img/1.jpg" alt=""></li>
+            <li><img src="img/2.jpg" alt=""></li>
+            <li><img src="img/3.jpg" alt=""></li>
+            <li><img src="img/4.jpg" alt=""></li>
+            <li><img src="img/5.jpg" alt=""></li>
+        </ul>
+        <ol class="clearfix indicators">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+    </div>
+    <div class="starScores">
+        <h4>给景区评分</h4>
+        <ul>
+            <li><h6>综合印象</h6>
+                <div><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div></li>
+            <li><h6>服务指数</h6>
+                <div><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div></li>
+            <li><h6>消费指数</h6>
+                <div><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div></li>
+
+
+        </ul>
+
+    </div>
+    <div class="addTags">
+        <h4>给景区添加标签</h4>
+        <a href="javascript:;">服务好</a>
+        <a href="javascript:;">景色赞</a>
+        <a href="javascript:;">千篇一律</a>
+        <a href="javascript:;">看人海</a>
+        <a href="javascript:;">挤爆了</a>
+        <a href="javascript:;">好玩</a>
+        <a href="javascript:;">景点新颖</a>
+       <button class="submit">提交</button>
+    </div>
+
+</section>
+<script>
+
+</script>
+<section class="page" id="form"></section>
+<section class="page" id="news"></section>
+<section class="page" id="mask"></section>
+<script src="jquery.min.js"></script>
+<script>
+    $(function() {
+        $('.page').hide();
+       // $('#welcome').show();
+        setTimeout(function () {
+            //$('#welcome').fadeOut();
+            $('#over').fadeIn();
+        },10);
+        /*无缝手动轮播图*/
+        (function slide() {
+            //首尾分别追加最后一张图以及第一张图
+            var ul = $('.banner ul');
+            var first = ul.children().first();
+            var last = ul.children().last();
+            ul.append(first.clone());
+            ul.prepend(last.clone());
+            var list = ul.children();
+            var count = list.length;
+            var width = $(window).width();
+            setStyle();
+            function setStyle() {
+                ul.css({width:width*count,left:-width});
+                list.width(width);
+            }
+            function setIndicators(index) {
+                $('.indicators').find('li:eq('+index+')').addClass('active').siblings().removeClass('active');
+            }
+            $(window).on('resize',function () {
+                width = $(this).width();
+                setStyle();
+            });
+            //自动播放
+            var timer = null;
+            var index = 1;
+            autoPlay();
+            function autoPlay() {
+                timer = setInterval(function () {
+                    index++;
+                    ul.css({transition:'left 0.5s ease-in-out',left:-index*width+'px'});
+                    setTimeout(function () {
+                        if(index==count-1) {
+                            index=1;
+                            ul.css({transition:'none',left:-index*width+'px'});
+                        }
+                    },500);
+                },2000);
+            }
+            touchPlay();
+            function touchPlay() {
+                var startX,moveX,disX,isBtn = true;
+                ul.on('touchstart',function(e) {
+                    clearInterval(timer);
+                    startX = e.targetTouches[0].clientX;
+                });
+                ul.on('touchmove',function (e) {
+                    if(isBtn) {
+                        moveX = e.targetTouches[0].clientX;
+                        disX = moveX - startX;
+                        ul.css({transition:'none',left:-index*width+disX+'px'});
+                    }
+                });
+                ul.on('touchend',function () {
+                    isBtn = false;
+                    if(Math.abs(disX)>100) {
+                        if(disX>0) {
+                            index--
+                        }
+                        else  {
+                            index++;
+                        }
+                        ul.css({transition:'left 0.5s ease-in-out',left:-index*width+'px'});
+                    }else if(Math.abs(disX)>0) {
+                        ul.css({transition:'left 0.5s ease-in-out',left:-index*width+'px'});
+                    }
+                    startX = 0;
+                    disX = 0 ;
+                    moveX = 0;
+                });
+                ul.on('webkitTransitionEnd',function () {
+                    if(index==count-1) {
+                        index=1;
+                        ul.css({transition:'none',left:-index*width+'px'});
+
+                    } else if(index==0) {
+                        index=count-2;
+                        ul.css({transition:'none',left:-index*width+'px'});
+                    }
+                    ul.css({transition:'left 0.5s ease-in-out',left:-index*width+'px'});
+                    setIndicators(index-1);
+                    console.log(index);
+                    setTimeout(function () {
+                        isBtn = true;
+                        clearInterval(timer);
+                        autoPlay();
+                    },100);
+                });
+            }
+        })();
+
+
+
+    });
+
+</script>
+
+</body>
+</html>

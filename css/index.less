@@ -1,0 +1,160 @@
+@import './animate.less';
+html, body {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+    padding: 0;
+    min-width:320px;
+    max-width:640px;
+    font-size:16px;
+
+}
+ul ,ol{
+    list-style:none;
+}
+ul,li,p,h4,ol{
+    padding: 0;
+    margin:0;
+}
+a {
+    text-decoration: none;
+}
+input,button {
+    outline:none;
+    -webkit-tap-highlight-color: transparent;
+}
+.clearfix:before,.clearfix:after {
+    content:'. ';
+    display: block;
+    height: 0;
+    line-height: 0;
+    visibility:hidden;
+    clear:both;
+}
+
+.page {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+/*第一个页面*/
+#welcome {
+    .tree-wrap {
+        padding-top: 100px;
+        position: relative;
+        top:0;
+        padding-bottom: 100px;
+        animation:treeUP 1s forwards;
+        .tree {
+            animation: slideUp2 1s forwards;
+            width: 100%;
+            display: block;
+        }
+        .cloud {
+            position: absolute;
+            left: 0;
+            top: 0;
+            animation:clouds 1s 1.5s forwards;
+            &:nth-of-type(1) {
+                left: 100px;
+                top: 250px;
+            }
+            &:nth-of-type(2) {
+                left: 250px;
+                top: 100px;
+            }
+            &:nth-of-type(3) {
+                left: 250px;
+                top: 200px;
+
+            }
+        }
+    }
+    .text > img {
+        width: 100%;
+        display: block;
+        &.title1 {
+            opacity: 0;
+            margin-bottom: 20px;
+            animation: slideUp1 1s forwards;
+        }
+        &.title2 {
+            opacity: 0;
+            animation: slideUp1 1s 0.5s forwards;
+        }
+        &.logo {
+            position: absolute;
+            bottom: 40px;
+            opacity: 0;
+            animation: opacity 0.5s 1s forwards;
+        }
+    }
+}
+/*第二个页面*/
+#over {
+    color:#666;
+    .banner {
+        width: 100%;
+        //overflow: hidden;
+        position:relative;
+        ul {
+            position:relative;
+            li {
+                float: left;
+                width: 100%;
+                img {
+                    width: 100%;
+                    display: block;
+                }
+            }
+        }
+        ol {
+            position:absolute;
+            bottom:10px;
+            right:0;
+            li {
+                width: 10px;
+                height: 10px;
+                margin-right:10px;
+                border:1px solid #fff;
+                border-radius:50%;
+                float: left;
+                &.active {
+                    background-color: #fff;
+                }
+            }
+
+
+        }
+    }
+    .starScores {
+        padding: 20px;
+        ul {
+            li {
+                height: 40px;
+                line-height: 40px;
+                .clearfix;
+                h6 {
+                    margin-right:20px;
+                    float: left;
+                    width:20%;
+                }
+                div {
+                    font-size:20px;
+                    float: left;
+                    width:80%;
+
+                }
+            }
+        }
+
+    }
+    .addTags {
+        padding: 20px;
+        
+    }
+}
